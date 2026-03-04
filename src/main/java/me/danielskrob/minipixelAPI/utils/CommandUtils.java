@@ -1,4 +1,4 @@
-package me.danielskrob.minipixelAPI;
+package me.danielskrob.minipixelAPI.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
@@ -9,7 +9,7 @@ import org.bukkit.plugin.Plugin;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 
-public class CommandUtil {
+public class CommandUtils {
     public static void registerCommand(Plugin plugin, String name, CommandExecutor executor) {
         try {
             Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");

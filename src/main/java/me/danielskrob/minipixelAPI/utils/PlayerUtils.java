@@ -1,19 +1,20 @@
 package me.danielskrob.minipixelAPI.utils;
 
+import me.danielskrob.minipixelAPI.CoreBridge;
 import me.danielskrob.minipixelAPI.MinipixelAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class PlayerApiUtils {
+public class PlayerUtils {
 
     private static MinipixelAPI plugin;
     private static final Set<UUID> startingPlayers = new HashSet<>();
@@ -63,5 +64,26 @@ public class PlayerApiUtils {
 
     public static Set<UUID> getStartingPlayers() {
         return startingPlayers;
+    }
+
+    private void teleportPlayers(List<Player> players, Location spawn, double radius) {
+        World world = spawn.getWorld();
+
+        int count = 0;
+        int totalPlayers = players.size();
+
+        for (Player player : players) {
+            double angle = count * (2 * Math.PI / totalPlayers);
+
+            double x = spawn.getX() + (radius * Math.cos(angle));
+            double z = spawn.getZ() + (radius * Math.sin(angle));
+            int safeY = world.getHighestBlockYAt((int) x, (int) z);
+
+            Location teleportLoc = new Location(world, x, safeY + 1, z);
+            teleportLoc.setDirection(spawn.toVector().subtract(teleportLoc.toVector()));
+
+            spawnPlayer(player, teleportLoc, 10);
+            count++;
+        }
     }
 }

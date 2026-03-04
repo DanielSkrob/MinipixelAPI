@@ -53,16 +53,23 @@ public abstract class SpecialItem {
         return new NamespacedKey(plugin, "special_item_type");
     }
 
-    private ItemStack getItem() {
+    public void updateMeta(ItemMeta meta) {
+
+    }
+
+    public ItemStack getItem() {
+
         ItemStack item = new ItemStack(getMaterial());
         ItemMeta meta = item.getItemMeta();
 
         meta.setDisplayName(ChatUtils.translateColorCodes(getName()));
         meta.setLore(getLore().stream().map(ChatUtils::translateColorCodes).toList());
-
         meta.getPersistentDataContainer().set(getItemKey(), PersistentDataType.STRING, getId().toLowerCase());
+
+        updateMeta(meta);
         item.setItemMeta(meta);
         return item;
+
     }
 
     public void spawnItem(Location location) {
@@ -129,5 +136,11 @@ public abstract class SpecialItem {
                 }
             }
         }.runTaskTimer(plugin, 0L, 2L);
+    }
+
+    public void giveItemToPlayer(Player player) {
+        if (SpectatorManager.isSpectator(player)) return;
+
+        player.getInventory().addItem(getItem());
     }
 }
