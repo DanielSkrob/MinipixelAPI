@@ -1,6 +1,6 @@
 package me.danielskrob.minipixelAPI.events;
 
-import me.danielskrob.minipixelAPI.utils.PlayerApiUtils;
+import me.danielskrob.minipixelAPI.utils.PlayerUtils;
 import me.danielskrob.minipixelAPI.utils.SpectatorManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class PlayerEvents implements Listener {
     }
 
     private boolean isStarting(Player p) {
-        return PlayerApiUtils.getStartingPlayers().contains(p.getUniqueId());
+        return PlayerUtils.getStartingPlayers().contains(p.getUniqueId());
     }
 
     @EventHandler

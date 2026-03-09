@@ -17,7 +17,6 @@ public class CommandLockEvents implements Listener {
             return;
         }
 
-        // Raw message looks like "/tp Daniel" -> we want "tp"
         String rawMessage = event.getMessage().toLowerCase();
         String commandLabel = rawMessage.split(" ")[0].replace("/", "");
 
